@@ -1,3 +1,3 @@
-# Teaching materials for EPIB613 Fall 2018
+# Teaching Materials for EPIB613 Fall 2018
 
 ## Yi Lian
