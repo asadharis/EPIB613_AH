@@ -1,0 +1,54 @@
+---
+title: 'EPIB 613: Test Assignment'
+author: "Asad Haris"
+date: '2019-09-05'
+output:
+  html_document:
+    df_print: paged
+---
+This is an [R Markdown](http://rmarkdown.rstudio.com) example using R Notebooks. When you execute code within the notebook, the results appear beneath the code. 
+
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+# Introduction
+
+In this simple document, we will illustrate some of the *features* of **rmarkdown**. We have already emphasized some text using *italics* and then **bold**. We can also express displeasure at some line by ~~striking through it~~. 
+
+## Incorporating R code in a document
+
+To use R code, we need to include a code chunck. We will do some simple calculations in R.
+
+```{r}
+4+2
+7-8*(2/3)
+2^4
+abs(-5)
+sin(pi/2)
+log2(10)
+```
+
+### We can use an option to make things neater
+```{r, collapse=TRUE}
+4+2
+7-8*(2/3)
+2^4
+abs(-5)
+sin(pi/2)
+log2(10)
+```
+
+### Or simply display code without doing anything:
+```{r,eval=FALSE}
+plot(cars)
+```
+
+### Or not display code just the output:
+```{r,echo=FALSE}
+plot(cars)
+```
+
+
+

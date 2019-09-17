@@ -1,0 +1,135 @@
+Introduction to Statistical Software -- R language
+========================================================
+author: Asad Haris
+date: 5 September, 2019
+autosize: true
+
+Overview of R
+========================================================
+
+- R is a programming language built upon the S-language developed at AT&T Bell Laboratories.
+
+- It is a **free** software environment for statistical computing and graphics.
+
+- To learn more about the history of R see:
+  + [R-project page](https://www.r-project.org/about.html)
+  + [Wikipedia page](https://en.wikipedia.org/wiki/R_(programming_language)
+
+Why R?
+========================================================
+
+- Free, open-source, multi-platform
+- Excellent community of users and developers
+  + The number of things you can do with a single line of code is continuously growing through new packages (more on this later)
+- Has an excellent integrated development environment (IDE): **Rstudio**
+  + Makes working with base-R and other add-ons more user friendly
+- A ~~programming language~~ that can be used on a spectrum
+  + Has tools to do almost point-and-click statistical analysis
+  + Flexibility of writing your own code/functions/analysis 
+
+
+Installing base-R
+========================================================
+
+- Available for multiple platforms
+  + Windows ($\ge$ Windows 7) 
+  + OS X (MAC) 
+  + Linux (ubuntu, debian, redhat, suse)
+- Download required files from: https://cran.r-project.org/
+  + For MAC, you need to download the .pkg file, open and follow instructions
+  + For Windows, you need the .exe file, open and follow instructions
+  
+
+Base R console
+========================================================
+![Rconsole.png](images/Slide1.png)
+
+Installing RStudio
+========================================================
+- RStudio is the free R integrated development environment (IDE) that is available from https://www.rstudio.com/products/rstudio/
+- It has useful features such as syntax highlighting and tab for suggested code auto-completion.
+- It involves four-pane workspace, which better manages multiple R windows for typing commands, storing scripts, viewing command histories, viewing visualizations and more.
+- We will work with Rstudio to do things in R for this course.
+
+Rstudio IDE
+=======================================================
+![Rstudio1](images/Slide2.png)
+
+Rstudio IDE
+=======================================================
+![Rstudio1](images/Slide3.png)
+
+Rstudio IDE
+=======================================================
+![Rstudio1](images/Slide4.png)
+
+Rstudio IDE
+=======================================================
+![Rstudio1](images/Slide5.png)
+
+Rstudio IDE
+=======================================================
+![Rstudio1](images/Slide6.png)
+
+Rstudio IDE
+=======================================================
+![Rstudio1](images/Slide7.png)
+
+Rstudio IDE
+=======================================================
+![Rstudio1](images/Slide8.png)
+
+Rstudio Shortcuts
+=======================================================
+
+- Keyboard shortcuts can make coding faster and efficient
+- IDE displays list of shortcuts ~~tools-> Keyboard Shortcuts Help~~ or press ~~Alt+Shift+K (Option+Shift+K on Mac)~~ 
+- Some useful shortcuts to remember:
+  + **tab** key for auto compltete code. In console or editor start typing and press **tab** key to display list of suggestions.
+  + **Ctrl+Enter (Command+Enter on Mac)** runs the current line of code. If multiple lines selected/highlighted all selected lines will run in the console. 
+  + **Ctrl+S (Command+S on Mac)** saves the file in editor, good to continously save work incase R or Rstudio crashes (don`t worry, it happens to everyone).
+  
+First steps in R
+=======================================================
+
+- First we want to set a working directory.
+- You can use the default (usually where R is installed or $HOME) however the working directory is where any exported results/reports/tables/plots will be saved. 
+- Having raw data in the working directory also makes importing data easy.
+
+```{r}
+setwd("C:/Users/Asad/Dropbox")
+setwd("~/")
+setwd("~/work")
+```
+
+- In Studio, we can also use *Session -> Set Working Directory*
+
+Basic calculations in R
+=======================================================
+
+- To start, we can use R as a calculator. All simple operations: +, -, *, /, ^
+```{r,collapse=TRUE}
+4+2
+7-8*(2/3)
+2^4
+```
+
+- R also comes with some built-in math functions
+```{r, collapse = TRUE}
+abs(-5)
+sin(pi/2)
+log2(10)
+```
+
+Functions and pacakges
+=======================================================
+
+- We have already used **functions** in R, i.e. `setwd()`, `abs()`, `log2()` are all examples of functions.
+- A function in R (or any programming language) is like a function in math:
+  + It is *something* which takes in certain <font color = "red">input</font>, performs some operations on this input and returns <font color = "red">output</font>
+  + We have seen some built-in functions, but we can <font color = "blue">define our own functions</font> or <font color = "blue">use functions defined by others</font>.
+  + Developers and users can write useful functions and share them as <font color = "red">*R-packages*</font>
+  
+- An R-package is a collection of functions, data and compiled code. 
+  + There are MANY R-packages out there!
+  + 

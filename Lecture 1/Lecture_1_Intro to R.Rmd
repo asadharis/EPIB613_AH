@@ -1,0 +1,187 @@
+---
+title: "Introduction to Statistical Software -- R language"
+author: Asad Haris
+date: 5 September, 2019
+
+output: beamer_presentation
+extra_dependencies: ["xcolor"]
+---
+
+Overview of R
+========================================================
+
+- R is a programming language built upon the S-language developed at AT&T Bell Laboratories.
+
+- It is a \textcolor{red}{free} software environment for statistical computing and graphics.
+
+- To learn more about the history of R see:
+    + R-project page: https://www.r-project.org/about.html
+    + Wikipedia page: https://en.wikipedia.org/wiki/R_(programming_language)
+
+Why R?
+========================================================
+
+- Free, open-source, multi-platform
+- Excellent community of users and developers
+    + The number of things you can do with a single line of code is continuously growing through new packages (more on this later)
+- Has an excellent integrated development environment (IDE): **Rstudio**
+    + Makes working with base-R and other add-ons more user friendly
+- A \textcolor{blue}{programming language} that can be used on a spectrum
+    + Has tools to do almost point-and-click statistical analysis
+    + Flexibility of writing your own code/functions/analysis 
+
+
+Installing base-R
+========================================================
+
+- Available for multiple platforms
+    + Windows ($\ge$ Windows 7) 
+    + OS X (MAC) 
+    + Linux (ubuntu, debian, redhat, suse)
+- Download required files from: https://cran.r-project.org/
+    + For MAC, you need to download the .pkg file, open and follow instructions
+    + For Windows, you need the .exe file, open and follow instructions
+    
+
+Base R console
+========================================================
+![Base-R GUI](images/Slide1.png)
+
+Installing RStudio
+========================================================
+- RStudio is the free R integrated development environment (IDE) that is available from https://www.rstudio.com/products/rstudio/
+- It has useful features such as syntax highlighting and tab for suggested code auto-completion.
+- It involves four-pane workspace, which better manages multiple R windows for typing commands, storing scripts, viewing command histories, viewing visualizations and more.
+- We will work with Rstudio to do things in R for this course.
+
+Rstudio IDE
+=======================================================
+![Rstudio IDE](images/Slide2.png)
+
+Rstudio IDE
+=======================================================
+![Editor window](images/Slide3.png)
+
+Rstudio IDE
+=======================================================
+![Console window](images/Slide4.png)
+
+Rstudio IDE
+=======================================================
+![Environment](images/Slide5.png)
+
+Rstudio IDE
+=======================================================
+![Files](images/Slide6.png)
+
+Rstudio IDE
+=======================================================
+![Package list](images/Slide7.png)
+
+Rstudio IDE
+=======================================================
+![Help and History](images/Slide8.png)
+
+Rstudio Shortcuts
+=======================================================
+
+- Keyboard shortcuts can make coding faster and efficient
+- IDE displays list of shortcuts \textcolor{blue}{tools-> Keyboard Shortcuts Help} or press \textcolor{blue}{Alt+Shift+K (Option+Shift+K on Mac)} 
+- Some useful shortcuts to remember:
+    + **tab** key for auto compltete code. In console or editor start typing and press **tab** key to display list of suggestions.
+    + **Ctrl+Enter (Command+Enter on Mac)** runs the current line of code. If multiple lines selected/highlighted all selected lines will run in the console. 
+    + **Ctrl+S (Command+S on Mac)** saves the file in editor, good to continously save work incase R or Rstudio crashes (don`t worry, it happens to everyone).
+  
+First steps in R
+=======================================================
+
+- First we want to set a working directory.
+- You can use the default (usually where R is installed or $HOME) however the working directory is where any exported results/reports/tables/plots will be saved. 
+- Having raw data in the working directory also makes importing data easy.
+
+```{r}
+setwd("C:/Users/Asad/Dropbox")
+setwd("~/")
+setwd("~/work")
+```
+
+- In Studio, we can also use \textcolor{blue}{Session -> Set Working Directory}
+
+Basic calculations in R
+=======================================================
+
+- To start, we can use R as a calculator. All simple operations: +, -, *, /, ^
+```{r,collapse=TRUE}
+4+2
+7-8*(2/3)
+2^4
+```
+
+- R also comes with some built-in math functions
+```{r, collapse = TRUE}
+abs(-5)
+sin(pi/2)
+log2(10)
+```
+
+Functions and pacakges
+=======================================================
+
+- We have already used **functions** in R, i.e. `setwd()`, `abs()`, `log2()` are all examples of functions.
+- A function in R (or any programming language) is like a function in math:
+    + It is *something* which takes in certain \textcolor{red}{input}, performs some operations on this input and returns \textcolor{red}{output}
+    + We have seen some built-in functions, but we can \textcolor{blue}{define our own functions} or \textcolor{blue}{use functions defined by others}.
+    + Developers and users can write useful functions and share them as \textcolor{red}{R-packages}
+  
+- An R-package is a collection of functions, data and compiled code. 
+    + There are MANY R-packages out there!
+    + It is extremely helpful for methods papers to have an accompanying package.
+    + For any project/paper making an R-package helps \emph{reproducibility}. 
+
+Installing and loading packages
+=====================================================
+- We have seen that Rstudio shows list of installed packages. 
+- We can install packages using the Rstudio GUI or in command line:
+```{r,eval=FALSE}
+install.packages("the-package-name")
+
+install.packages("ggformula")
+install.packages("mosaic")
+```
+
+- Once installed we can need to \emph{load} a package to use its functions:
+```{r,eval=FALSE}
+load(the-package-name)
+```
+- Packages need to be re-loaded everytime we start a new session. 
+
+
+Rmarkdown: tools for reproducible research
+=====================================================
+
+- Markdown is a \emph{markup language}, a system that can be used to create documents. 
+    + Purpose of this was to have a simple syntax markup language
+    + Rmarkdown, builds upon that and allowing us to incorporate R (and even other programming languages!)
+  
+- Simple Rmarkdown can be used for creating simple documents. But it can do much more:
+    + Create a variety of formatted documents in multiple formats (pdf, html, etc)
+    + Allows users to easily insert tables, lists, math equations
+    + Can be used to write papers for journals/conferences
+    + Commonly used to write software manuals for R packages
+    + Your EPIB 607 assignments
+    + These slides were made in Rmarkdown!
+    
+    
+Rmarkdown in action
+=====================================================
+- Easy quickstart: use the template in Rstudio
+- Using the simple markdown syntax we can create documents
+    + For a quick start: https://rmarkdown.rstudio.com/authoring_basics.html
+    + In "Help -> Cheatsheets", we have a reference guide and a cheatsheet. 
+- We can include \emph{\textcolor{red}{code chunks}}
+    + These literally have chuncks of code which are executed when the document is \emph{compiled}
+    + We can add options various options for code chuncks which leads to different results (both aesthetically and code output)
+- A recent addition to Rstudio is \textcolor{red}{R Notebooks}
+    + R Notebooks are rmarkdown documents but now the code is executed on-the-fly.
+    
+- A simple Rmarkdown document

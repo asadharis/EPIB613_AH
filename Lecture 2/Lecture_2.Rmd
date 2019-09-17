@@ -1,0 +1,583 @@
+---
+title: "Overview of R -- Part I"
+author: "Asad Haris"
+date: "12 September, 2019"
+output:
+extra_dependencies: xcolor
+---
+
+## Overview of Lecture
+
+Today we will (roughly) cover the following topics: 
+
+1. How to create an object
+2. Operators
+3. How to generate data &  Data types
+4. ~~Introduction to ggformula and mosaic packages~~ (Next Lecture)
+5. ~~Coding style~~ (Instead please see excellent [guide by Hadley Wickham](https://style.tidyverse.org/))
+
+## Review basic computations
+
+- Recall basic computations from last lecture
+
+```{r, collapse=TRUE}
+2+3
+log(4)  # Natural log
+sin(2)  # Sin function
+2e+3  # Equal to 2 * 10^3
+8^(1/3)
+sqrt(4)
+```
+
+- The symbol `#` is used to add comments to code
+
+## Creating objects
+
+- We can use `<-`, `->` & `=`
+
+```{r, collapse=TRUE}
+# Using <-, -> & =
+num.1 <- 2
+3 -> num.2
+num.3 = 8
+
+# Case-Sensitive
+Num.1 <- 20
+
+# Invalid options, Cannot start with number
+# 45_23 <- 13
+# 4num <- 4
+
+# Valid to use Alpha+numeric
+num4 <- 4
+
+# Can assign multiple objects at the same time
+x <- y <- z <- 10
+
+# Old values get replaced
+num.1 <- 33 
+```
+
+- Do NOT assign the single letter names c, g, t, C, D, F, I and T as they are default names that are used by R. For instance, T and F are abbreviations for TRUE and FALSE in logical operations. We should avoid using names that are already used by the system. 
+
+- There is no limit on length of variable names. Using appropriate or informative variable names can be helpful for reading code and reproducibility. 
+
+```{r,collapse=TRUE}
+# calculations with variables
+num.students <- 30
+num.male <- 13
+
+num.female <- num.students - num.male
+prec.male <- num.male/num.students * 100
+prec.female <- num.female/num.students * 100
+```
+
+- We can view objects in the environment window, or we could use the `ls()` function.
+- Objects can be deleted using `rm()`
+
+```{r,collapse=TRUE}
+ls()
+rm(num.students)
+
+# Deleting all objects in a session
+list.of.objects <- ls()
+rm(list = list.of.objects)
+```
+
+## Data types and structures
+
+**Firstly, a side-note about functions:**
+
+    - Functions are `R` commands which take in inputs and return an output, the general template will be `some.function(input1, input2, input3)`. 
+    - All plot, data summary, data analysis tools in R are functions. 
+    - Apart from google, your main best friend should be the function help-page:
+        + `?function-name`
+
+
+### Vectors (and data types)
+
+- R is a vectorized language, operations/functions can be applied to a whole vector. 
+- The basic way to define a vector is using the `c()` function, the 'c' stands for concatenate.
+- We use vectors to discuss the various data-types
+
+```{r,collapse=TRUE}
+# A numeric vector
+age <- c(22, 21, 23, 22, 24, 21, 21)
+class(age)
+
+# A character vector
+class.names <- c("Robert", "Alice", "Mark", "Kate",
+              "Charlie", "Victor", "John")
+class(class.names)
+
+# A logical vector
+EPIB.student <- c(TRUE, TRUE, TRUE, FALSE, FALSE, 
+                  TRUE, TRUE)
+class(EPIB.student)
+```
+
+- Vectors can be named, we will later see almost all objects can be named
+- Names can be assigned manually or using an existing vector of names
+```{r,collapse=TRUE}
+names(age) <- class.names
+age
+
+grades <- c("Robert" = "A+", "Alice" = "A+", "Mark" = "B+",
+            "Kate" = "B-", "Charlie" = "C+", "Victor" = "A-", "John" = "B+")
+print(grades)
+```
+
+#### Generating data: vectors
+- We have already seen data generation using `c()` function
+- Other functions for generating vectors:
+    + `seq()`
+    + `rep()`
+    + `sequence()`
+    + Random numbers*: `rnorm`, `rbinom`, `runif`, `sample` etc. 
+    
+```{r,collapse=TRUE}
+c(-1, 5.44, 100, 34123)
+
+-1:10 # By increments of 1.
+
+seq(from = 0.33, to = 9.33, by = 3)
+
+seq(from = 0, to = 1, length = 5)
+
+rep(1.2, times = 5)
+
+rep(c("six", "one", "three"), each = 2)
+
+c(6, 1, 3, rep(seq(from = 3, to = 5, by = 0.5), times = 2))
+
+sequence(5)
+
+sequence(c(6, 1, 3))
+
+```
+
+- We can generate a random sample from given data using `sample`
+  
+```{r,collapse=TRUE}
+#In order to be able to replicate random sampling results, we should set a seed
+set.seed(2019)
+
+# Sample with replacement
+sample(1:30, size = 10, replace = TRUE)
+
+# Sample without replacement
+sample(1:30, size = 10, replace = FALSE)
+
+# Sample names
+sample(class.names, size = 3)
+```
+
+- R has built in functions to sample data from given distributions
+```{r,collapse=TRUE}
+# Uniform random variables from [-1, 1]
+runif(n = 10, min = -1, max = 1)
+
+# Gaussian/Normal random variables with mean = 0, sd = 1
+rnorm(n = 10, mean = 0, sd = 1)
+
+# Binomial(5, 0.3) distribution
+rbinom(n = 10, size = 5, prob = 0.3)
+```
+
+
+### Matrix
+
+- Most data structures are made from the basic vectors
+
+```{r,collapse=TRUE}
+mymatrix1 <- matrix(c(1:12), nrow = 4, ncol = 3, byrow = TRUE)
+print(mymatrix1)
+
+mymatrix2 <- matrix(c(1:12), nrow = 4, ncol = 3, byrow = FALSE)
+print(mymatrix2)
+
+rownames <- c("Subject A", "Subject B", "Subject C", "Subject D")
+colnames <- c("Sample 1", "Sample 2", "Sample 3")
+rownames(mymatrix1) <- rownames
+colnames(mymatrix1) <- colnames
+print(mymatrix1)
+
+```
+
+- We have to be careful when creating matrices and other complex structures
+```{r,collapse=TRUE}
+# Sometimes R gives a warning
+bad.matrix1 <- matrix(c(1:11), nrow = 4, ncol = 3, byrow = TRUE)
+print(bad.matrix1)
+
+# Sometimes there is no warning, be careful!
+bad.matrix2 <- matrix(c(1:4), nrow = 6, ncol = 6)
+print(bad.matrix2)
+
+```
+
+### Arrays
+
+- Mathematically, scalars, vectors and matrices are all arrays of different dimensions
+    + Scalar: 1 x 1 array
+    + Vector of length k: 1 x k array
+    + Matrix of dimension m x n: m x n array
+
+- R treats every array below 3 dimensions differently but they are essentially not very different. 
+
+- Now let's look at a 3-dimensional array.
+```{r,collapse=TRUE}
+myarray <- array(1:24, dim = c(4,3,2))
+print(myarray)
+```
+
+- Demonstrating Arrays using fake data
+    + Disease: 1 (Yes) and 0 (No)
+    + Drug: 1 (Exposed) and 0 (Unexposed)
+    + BMI category: 1, 2, 3
+    + Age category: 1, 2, 3, 4
+
+```{r,collapse=TRUE}
+set.seed(2019) 
+
+# Randomly assign ~20% of patients to have disease.
+disease <- sample(c(0,1), size = 100, replace = TRUE, prob = c(0.2, 0.8))
+
+# Randomly assign ~40% of patients to take drug.
+drug <- sample(c(0,1), size = 100, replace = TRUE, prob = c(0.4, 0.6))
+
+bmi.cat <- sample(1:3, size = 100, replace = TRUE) # Randomly assign BMI categories
+age.cat <- sample(1:4, size = 100, replace = TRUE) # Randomly assign age categories
+
+# Don't worry about data.frame : coming up next!
+data <- data.frame(drug, disease, bmi.cat, age.cat)
+head(data)
+
+# The table below shows the first 6 rows of the fake dataset.
+# This is a typical dataset you will see in Epidemiology.
+# Each row is a patient, with their own information.
+# Goal is to assess the association between disease and drug (drug safety).
+
+# By tabulating the data, we can assess the association (EPIB 601 material).
+# If we only tabulate drug and disease, we get a 2x2 table, which is a matrix or a 2-dimensional array.
+# 1st dimension: drug, 2nd dimension: disease
+table(data[c("drug","disease")])
+prop.table(table(data[c("drug","disease")]), margin = 1)
+
+# This may not be enough, we want to see how people with different BMI may differ (confounder, also 601 material).
+# We now need a 2x2x3 table, which is a 3-dimensional array.
+# 1st dimension: drug, 2nd dimension: disease, 3rd dimension: bmi.cat
+table(data[c("drug", "disease", "bmi.cat")])
+
+# Further include age to see how age category comes into the association
+# We now need a 2x2x3x4 table, which is a 4-dimensional array.
+# 1st dimension: drug, 2nd dimension: disease, 3rd dimension: bmi.cat, 4th dimension: age.cat
+
+#table(data)
+
+```
+
+
+### Data frames
+
+Data frame is the most commonly used member of the data types family in R. A data frame is a generalization of a matrix, in which different columns may have different modes. All elements of any column must have the same mode, i.e. all numeric or all factor, or all character.
+
+```{r, collapse=TRUE}
+
+dat.1 <- data.frame(class.names, age, grades, EPIB.student)
+print(dat.1)
+
+str(dat.1) # checking the structure of an object
+
+```
+
+- You might have seen the `NA` or `NaN` symbols in R. 
+    + NA can b used for 
+
+```{r,collapse=TRUE}
+0/0
+
+# We can also assign NaN values to data
+dat.1$age <- c(22, 21, 23, 22, 24, NA, NA)
+```
+
+
+
+### Lists: special types of vectors
+
+- Lists are like vectors, only the objects can be of different types
+    + We can have a list of numbers or characters
+    + We can have a list of some numbers, some characters and some logical
+
+- Lists can also hold other data structures
+    + We can have a list where each element is a vector
+    + or a matrix
+    + We could even have a list of lists!
+
+```{r,collapse=TRUE}
+
+mylist <- list("Red", factor(c("a","b")), c(21,32,11), TRUE)
+print(mylist)
+
+str(mylist)
+
+```
+
+### Factors
+
+- A lot like character vectors
+    + They have an additional `levels` part to them
+    + This type of data structure is useful with other R functions (later)
+
+```{r,collapse=TRUE}
+ch.letter <- rep(letters[1:3], each = 4)
+print(ch.letter)
+
+class(ch.letter)
+
+fac.letter <- rep(as.factor(letters[1:3]), each = 4)
+print(fac.letter)
+# Note the additional 'Levels: a b c' in the output
+
+class(fac.letter)
+
+levels(fac.letter) <- c("Alpha", "Bravo", "Charlie")
+print(fac.letter)
+
+```
+
+
+### Conversions between different types:
+
+Conversion between these data structures
+    - as.vector
+    - as.matrix
+    - as.array
+    - as.data.frame
+    - ...
+Check whether your R object has certain data structure
+    - is.vector
+    - is.matrix
+    - is.array
+    - is.data.frame
+    - ...
+    
+## More on Operations
+
+So far we have seen simple operations on scalars. R allows us to do much more with vectors and matrices.
+
+### Numerical operations
+
+```{r,collapse=TRUE}
+a <- c(1, 8, 8)
+b <- c(2, 8, 4)
+
+a+1 # here 1 is considered as a vector (1, 1, 1)
+
+a+b
+
+a*b
+
+a^2
+
+c <- matrix(c(1,2,3,4), nrow = 2, byrow = T)
+d <- matrix(c(5,6,7,8), nrow = 2, byrow = F)
+print(c); print(d)
+
+c+1
+
+c+d
+
+c*d
+
+c^2
+
+a %*% b
+
+a %o% b
+
+c %*% d
+
+c; t(c)
+
+diag(c)
+
+det(c)
+
+```
+
+### Logical operators
+
+```{r, collapse=TRUE}
+# Recall vector a and b from above.
+print(a); print(b)
+
+a == b # Equal or not?
+
+a != b # Not equal?
+
+a > b
+
+a <= b
+
+# And
+a; b
+a>5 & b>5
+
+# Or
+a>=5 | b>=5
+
+"ABC" == "ABC"
+
+"ABC" == "abc"
+
+TRUE + TRUE + FALSE # True = 1, False = 0.
+```
+
+## Data viziulization 
+
+We will begin with some basic data visualization using the `ggformula` package. 
+
+```{r,message=FALSE,warning=FALSE}
+library(ggformula)
+```
+
+
+Basic idea for ggformula is as follows: 
+
+<center> <h3>FunctionName (Outcome Variable ~ Explanatory Variable(s), data = myData)</h3> </center>
+
+We will use a number of existing dataframes in R for this demonstration. To see list of available data sets in R, use the command `data()`.
+
+We will consider the following:
+    - Basic Uni variate plots: histograms, density, boxplots
+    - Basic bivariate plots: boxplots, scatter, line, smoothing line
+    - Other features
+
+### Histograms & density plots
+
+```{r,collapse=TRUE}
+# First consider the USArrests Data.
+# Samples (n) = 50, and 4 variables:
+# 1. Number of Murder arrests /100,000, 
+# 2. Number of Assault arrests /100,000
+# 3. Percent of urban pop, 
+# 4. Number of rape arrests /100,000 
+
+ggformula::gf_histogram(~Murder, data = USArrests)
+
+# Histogram with some options
+ggformula::gf_histogram(~Murder, data = USArrests, bins = 20,
+                        fill = "green", color = "red", 
+                        title = "Murder Arrests in USA",
+                        xlab = "Number of Murder Arrests/100,000")
+
+# Using base-R
+hist(USArrests$Murder)
+# With options
+hist(USArrests$Murder, col = "red", xlab = "Number of Murder Arrests/100,000", main = "Murder Arrests in USA", breaks = 20)
+```
+
+
+### Box plots
+
+```{r}
+# Simple boxplot using ggformula and base-R
+ggformula::gf_boxplot(~Murder, data = USArrests, 
+                      color = "red", fill = "green") 
+
+boxplot(USArrests$Murder, 
+        xlab = "",
+        ylab = "Number of Arrests/100,000", col = 2)
+
+# Easy to do multiple boxplots in base-R
+boxplot(list(USArrests$Murder, USArrests$Assault, USArrests$Rape), 
+        names = c("Murder", "Assault", "Rape"), notch = TRUE,
+        ylab = "Number of Arrests/100,000", col = 2:4,
+        log = "y") # log = "y", log-scales the y-axis.
+
+```
+
+
+### Continuous vs. Categorical: boxplots
+
+- Boxplots can be made by a categorical variable
+- We look at the `esoph` data now:
+    + `agegp`, `alcgp` and `tobgp`: 3 categorical variables for age, alcohol consumption and tobacco consumption.
+    + `ncases`: number of cases of esophageal cancer
+    + `ncontrols`: number of controls
+
+```{r}
+# No. of cases by age group
+ggformula::gf_boxplot(ncases~agegp, data = esoph, fill = "green",
+                      xlab = "Age Group (years)", ylab = "No. of Cases")
+boxplot(ncases ~ agegp, data = esoph, col = "lightgreen",
+        xlab = "Age Group (years)", ylab = "# of Cases",
+        outline = FALSE)
+```
+
+#### Faceting: a very useful feature
+
+- Faceting is a useful feature when we might have multiple variable we wish to group by
+- An easy feature for `ggformula` and `ggplot` but harder to do in base-R.
+
+```{r}
+ggformula::gf_boxplot(ncases ~ agegp | alcgp, 
+                      data = esoph, fill = ~alcgp,
+                      xlab = "Age Group (years)", ylab = "No. of Cases")
+
+par(mfrow = c(2,2))
+boxplot(ncases ~ agegp, data = esoph, subset = (alcgp == "0-39g/day"),
+        col = 2)
+boxplot(ncases ~ agegp, data = esoph, subset = (alcgp == "40-79"),
+        col = 3)
+boxplot(ncases ~ agegp, data = esoph, subset = (alcgp == "80-119"),
+        col = 4)
+boxplot(ncases ~ agegp, data = esoph, subset = (alcgp == "120+"),
+        col = 5)
+par(mfrow = c(1,1))
+```
+### Continuous vs. Categorical: barplots
+
+- Barplots are for known heights which need to plotted. 
+    + We will use the `Titanic` dataset, see `?Titanic`
+    + We will first convert it to a `data.frame`
+    
+```{r}
+dat <- as.data.frame(Titanic)
+
+ggformula::gf_col(Freq ~ Survived|Class, 
+                  data = subset(dat,Age == "Adult" & Sex == "Male"),
+                  fill = ~ Class)
+
+# Frequency of Adult, Men who survived by class
+barplot(Freq ~ Survived + Class, data = dat,
+        subset = Age == "Adult" & Sex == "Male", legend = TRUE,
+        col = c("lightgreen", "cyan") )
+```
+
+#### Adding layers in ggformula
+
+- In `ggformula`, each plot is a layer and we can stack the layers together
+    + E.g. we could have a scatter plot and add a layer of loess smoothers
+    + Or (example below), we could add error-bars or confidence intervals to a plot
+- Adding layers in ggplot is done using the `%>%` symbol
+```{r}
+# We consider the hypothetical scenario where there might be measurement
+# error in counting the people. 
+# Assume we know the SE, we can then make 95% Wald confidence intervals
+# as: (est - 1.96*SE, est + 1.96*SE)
+
+# Generate 95% confidence interval with SE = 2
+dat$lower.CI <- dat$Freq - 1.96*10
+dat$upper.CI <- dat$Freq + 1.96*10
+
+ggformula::gf_col(Freq ~ Survived|Class, 
+                  data = subset(dat,Age == "Adult" & Sex == "Male"),
+                  fill = ~ Class) %>%
+  ggformula::gf_errorbar(lower.CI + upper.CI ~ Survived|Class, width = 0.2)
+
+```
+
+
+### Continuous vs Continous (Coming up next)
